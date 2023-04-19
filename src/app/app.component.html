@@ -1,22 +1,62 @@
 <div class="container pt-5">
   <h1 class="mat-h1">Project Report</h1>
-  <form #myForm class="" [formGroup]='form'>
+  <form #myForm class="" [formGroup]="form">
     <mat-form-field class="example-full-width">
       <mat-label>Project name</mat-label>
       <input matInput placeholder="" formControlName="projectName" value="" />
     </mat-form-field>
     <mat-form-field class="example-full-width">
       <mat-label>Mail</mat-label>
-      <input matInput placeholder="" type="email" formControlName="mail" value="" />
+      <input
+        matInput
+        placeholder=""
+        type="email"
+        formControlName="mail"
+        value=""
+      />
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Status</mat-label>
       <mat-select formControlName="status">
         <ng-container *ngFor="let status of statuses">
-        <mat-option [value]="status.value"> {{ status.title }}</mat-option>
+          <mat-option [value]="status.value"> {{ status.title }}</mat-option>
         </ng-container>
       </mat-select>
     </mat-form-field>
-    <button (click)="submit()" [disabled]='form.invalid' class="mt-3" color="primary" type="submit" mat-raised-button>Submit</button>
+    <div class="row" formArrayName="projectManager">
+      <ng-container *ngFor="let projectManager of projectManagers.controls; let i = index"  [formGroupName]='i'>
+          <div class="col">
+            <mat-form-field class="example-full-width">
+              <mat-label>Project Manager Name</mat-label>
+              <input matInput placeholder="" formControlName="name" value="" />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill">
+              <mat-label>Qualification</mat-label>
+              <mat-select formControlName="qualification">
+                <ng-container *ngFor="let qualification of qualifications">
+                  <mat-option [value]="qualification.value">
+                    {{ qualification.qualification }}</mat-option
+                  >
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <button (click)="addProjectManager()" type="button" color='primary' mat-stroked-button>Add project manager</button>
+        </ng-container>
+    </div>
+
+    <mat-divider></mat-divider>
+    <button
+      (click)="submit()"
+      [disabled]="form.invalid"
+      class="mt-3"
+      color="primary"
+      type="submit"
+      mat-raised-button
+    >
+      Submit
+    </button>
   </form>
 </div>

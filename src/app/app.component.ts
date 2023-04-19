@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { CustomValidators } from './custom-validators/custom-validators';
 
 @Component({
   selector: 'app-root',
@@ -8,12 +9,19 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
 
-  form: FormGroup
-  @ViewChild('myForm') myForm: NgForm;
+  form: FormGroup;
+  forbiddenProjectNames = ['Test']
+  
   statuses = [
     {value: 'stable', title: 'Stable' },
     {value: 'critical', title: 'Critical' },
     {value: 'finished', title: 'Finished' },
+  ]
+
+  qualifications: [
+    {value: 'bsc', qualification: 'B.Sc.',},
+    {value: 'ssce', qualification: 'SSCE',},
+    {value: 'phd', qualification: 'PhD',}
   ]
 
   constructor(
@@ -26,10 +34,28 @@ export class AppComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      projectName: ['', Validators.required],
+      projectName: ['', [Validators.required, CustomValidators.forbiddenProjectNames ] ],
       mail: ['', [Validators.required, Validators.email]],
-      status: ['', Validators.required]
+      status: ['', Validators.required],
+      projectManager: this.fb.array([
+        this.createProjectManager()
+      ])
     })
+  }
+
+  createProjectManager() {
+    return this.fb.group({
+      name: new FormControl(''),
+      qualification: new FormControl('')
+    })
+  }
+
+  get projectManagers() {
+    return this.form.get('projectManager') as FormArray;
+  }
+
+  addProjectManager() {
+    (this.form.get('projectManagers') as FormArray).push(this.createProjectManager())
   }
 
   submit() {
@@ -38,4 +64,6 @@ export class AppComponent implements OnInit {
     this.form.markAsPristine();
     this.form.markAsUntouched();
   }
+ 
+
 }
