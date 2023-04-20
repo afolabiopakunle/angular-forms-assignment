@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     {value: 'finished', title: 'Finished' },
   ]
 
-  qualifications: [
+  qualifications = [
     {value: 'bsc', qualification: 'B.Sc.',},
     {value: 'ssce', qualification: 'SSCE',},
     {value: 'phd', qualification: 'PhD',}
@@ -51,13 +51,16 @@ export class AppComponent implements OnInit {
   }
 
   get projectManagers() {
-    return this.form.get('projectManager') as FormArray;
+    return (this.form.get('projectManager') as FormArray);
   }
 
   addProjectManager() {
-    (this.form.get('projectManagers') as FormArray).push(this.createProjectManager())
+    (this.form.get('projectManager') as FormArray).push(this.createProjectManager())
   }
 
+  removeManager(i) {
+    (this.form.get('projectManager') as FormArray).removeAt(i)
+  }
   submit() {
     console.log(this.form.value);
     this.form.reset();

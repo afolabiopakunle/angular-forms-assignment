@@ -32,19 +32,18 @@
             </mat-form-field>
           </div>
           <div class="col">
-            <mat-form-field appearance="fill">
-              <mat-label>Qualification</mat-label>
+            <mat-form-field>
+              <mat-label>Qualifications</mat-label>
               <mat-select formControlName="qualification">
                 <ng-container *ngFor="let qualification of qualifications">
-                  <mat-option [value]="qualification.value">
-                    {{ qualification.qualification }}</mat-option
-                  >
+                  <mat-option [value]="qualification.value"> {{ qualification.qualification }}</mat-option>
                 </ng-container>
               </mat-select>
             </mat-form-field>
+            <button (click)="removeManager(i)" mat-button color="warn">Remove Manager</button>
           </div>
-          <button (click)="addProjectManager()" type="button" color='primary' mat-stroked-button>Add project manager</button>
         </ng-container>
+        <button (click)="addProjectManager()" type="button" color='primary' mat-stroked-button>Add project manager</button>
     </div>
 
     <mat-divider></mat-divider>
